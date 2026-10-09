@@ -1,0 +1,321 @@
+================================================================================
+HELIOTRACK SOLAR PANEL TRACKER - SYSTEM PLANNING & SPECIFICATION
+================================================================================
+Generated for: HelioTrack Project (/home/dimas/solar-panel-tracker)
+Date: 2026-10-02
+
+================================================================================
+1. COMPLETE LIST OF HTML ELEMENT IDS
+================================================================================
+
+--- Dashboard (index.html) ---
+#val-power             : Live generated electrical power output in kW (e.g. 4.82)
+#val-voltage           : Bus DC voltage in Volts (e.g. 385.4)
+#val-current           : Bus current output in Amperes (e.g. 12.50)
+#val-irradiance        : Direct solar irradiance measurement in W/m² (e.g. 895)
+#btn-self-test         : Button to trigger automatic dual-axis optical & servo calibration
+#azimuth-needle        : Compass needle indicator element for Azimuth angle (rotates via CSS transform)
+#val-azimuth           : Azimuth heading textual readout (e.g. "142.0° SE")
+#elevation-needle      : Compass needle indicator element for Elevation/Tilt (rotates via CSS transform)
+#val-elevation         : Tilt/Elevation textual readout (e.g. "34.5°")
+#val-cell-temp         : Photovoltaic cell temperature readout (e.g. "41.2°C (Safe)")
+#production-curve-svg  : SVG viewport element hosting the 24-hour production curve
+#chart-area-path       : SVG <path> element rendering the gradient fill below the curve
+#chart-line-path       : SVG <path> element rendering the primary green curve stroke
+#chart-dots-group      : SVG <g> group holding interactive data points (hoverable/clickable)
+#nav-home              : Bottom navigation bar link for Home (index.html)
+#nav-settings          : Bottom navigation bar link for Settings (settings.html)
+
+--- Settings & Controls (settings.html) ---
+#user-display-name     : Display name for the logged-in administrator profile
+#btn-edit-profile      : Button that opens the profile edit modal overlay
+#lang-select           : Dropdown select element for localization (en, id, es)
+#jog-left              : Manual motor jog: Step Azimuth West (-2.5°)
+#jog-right             : Manual motor jog: Step Azimuth East (+2.5°)
+#jog-up                : Manual motor jog: Step Elevation/Tilt Up (+2.0°)
+#jog-down              : Manual motor jog: Step Elevation/Tilt Down (-2.0°)
+#btn-reboot-device     : Button initiating simulated/remote hardware reboot of ESP32 MCU
+#btn-export-csv        : Button triggering automatic CSV telemetry download
+#btn-export-json       : Button triggering automatic JSON system export download
+#theme-select          : Dropdown select element for theme toggle (dark / light)
+#temp-select           : Dropdown select element for temperature units (°C / °F)
+#profile-modal         : Modal overlay container for editing account profile
+#edit-profile-name     : Input text field for modifying user's name
+#btn-close-modal       : Modal cancel button to dismiss popup without saving
+#btn-save-profile      : Modal submit button committing new profile data
+
+--- Dynamically Generated (app.js) ---
+#toast-container       : Floating container element injected into body for animated notifications
+
+
+================================================================================
+2. COMPLETE LIST OF CSS CLASSES
+================================================================================
+
+--- Application Layout & Navigation ---
+.app-container         : Mobile-first responsive wrapper (max-width 480px, centered on desktop)
+.app-header            : Fixed/sticky top navigation header
+.header-top            : Top header layout flex row
+.brand-wrapper         : Header link wrapping icon and title
+.brand-icon            : Circular badge holding brand SVG solar icon
+.brand-title           : Primary brand typography ("HelioTrack")
+.brand-subtitle        : Secondary subtitle typography
+.header-actions        : Flex container for right-aligned header controls/status
+.app-content           : Scrollable content container with comfortable padding
+.bottom-nav            : Fixed phone-friendly bottom navigation bar
+.nav-item              : Bottom nav link item with icon and label
+.active                : Active state indicator for nav items and modals
+
+--- Status Badges & Pills ---
+.status-pill           : Capsule badge displaying live operational status
+.pulse-dot             : Green pulsating dot indicating live telemetry heartbeat
+.card-badge            : Small pill badge inside card headers (e.g. "Live MPPT", "Online")
+.sun-badge             : Highlight badge indicating solar tracking state (e.g. "Peak Sun")
+.health-badge-good     : Green badge denoting optimal system operational rating
+.trend-up              : Green upward trend indicator (e.g. "▲ 14.2% vs fixed tilt")
+.impact-tag            : Environmental impact pills (CO₂ saved, trees equivalent)
+
+--- Cards & Metrics Grid ---
+.card                  : Base reusable elevated card with borders and subtle backdrop filter
+.card-header           : Flex header inside cards holding title and badge/action
+.card-title            : Card title heading with embedded SVG icon
+.hero-banner           : Top hero section displaying array number, location, and sun status
+.hero-info             : Typography block inside hero section
+.hero-sun-state        : Container for sun badge inside hero
+.summary-grid          : 2x2 responsive grid for core electrical telemetry metrics
+.summary-card          : Individual metric card
+.power                 : Power variant card styling
+.voltage               : Voltage variant card styling
+.current               : Current variant card styling
+.irradiance            : Irradiance variant card styling
+.metric-header         : Flex container for metric label and icon
+.metric-label          : Subdued uppercase metric name
+.metric-icon-box       : Icon container with themed background tint
+.metric-value-row      : Flex row displaying large value and unit
+.metric-val            : Large bold numeric value readout
+.metric-unit           : Muted unit text (kW, V, A, W/m²)
+.metric-sub            : Secondary subtext row below metric
+
+--- Health System & Tracker Visualizer ---
+.health-system-card    : Container card for health diagnostics
+.health-banner         : Summary row showing health score and summary description
+.health-gauge-text     : Text group inside health banner
+.health-score          : Large health percentage readout (e.g. "98.4%")
+.health-status-desc    : Subtitle describing component health
+.tracker-visualizer    : 2-column flex container for Azimuth and Tilt compass visualizers
+.angle-box             : Individual angle visualizer card
+.angle-icon-circle     : Circular compass dial housing rotating needle
+.needle-indicator      : Directional needle animated via CSS transform rotate()
+.angle-details         : Typography block for angle name and value
+.angle-title           : Title label ("Azimuth Angle" / "Tilt / Elevation")
+.angle-number          : Formatted degrees readout
+.health-metrics-list   : Vertical list of health status items
+.health-item           : Row item for health checks (Inverter, Servos, Cell Temp)
+.health-item-dot       : Small green status dot
+.health-item-info      : Flex container for item title and value
+.health-item-title     : Title of the monitored subsystem
+.health-item-val       : Value/state of the monitored subsystem
+
+--- Weather & Solar Arc ---
+.weather-card          : Container card for solar meteorology
+.weather-main-row      : Primary temperature and weather condition row
+.weather-condition     : Weather icon and temperature group
+.weather-sun-icon      : Sun SVG weather icon with golden tint
+.weather-temp-info     : Temperature and weather condition text
+.weather-temp-val      : Large temperature readout (e.g. "31°C")
+.weather-cond-name     : Sky condition description ("Sunny • Low Atmosphere Haze")
+.sun-arc-progress      : Progress bar container for daytime sun position
+.sun-arc-labels        : Flex labels for Dawn, Zenith, and Dusk timestamps
+.arc-track             : Background track for daytime timeline
+.arc-bar               : Filled colored bar representing current sun progress
+.weather-stats-grid    : 3-column grid for UV index, cloud cover, wind speed
+.weather-stat-pill     : Individual weather statistic pill
+.weather-stat-title    : Weather statistic label
+.weather-stat-val      : Weather statistic value
+
+--- Energy Production & Interactive Chart ---
+.production-card       : Card displaying daily yield and generation curve
+.prod-highlight-row    : Flex container for total kWh, revenue, and impact tags
+.prod-total            : Large total energy text (e.g. "34.8 kWh")
+.prod-impact-tags      : Stacked environmental benefit tags
+.chart-container       : Responsive container wrapping the SVG curve
+.chart-svg             : Scalable vector graphic canvas
+.chart-dot             : Interactive data point circle on SVG curve
+.chart-time-labels     : Flex row of X-axis time markers (06:00 to 18:00)
+
+--- Settings Page Components ---
+.settings-section-title: Uppercase section divider heading in settings
+.account-hero          : User profile card in settings
+.account-avatar        : Circular user avatar initials badge
+.account-info          : User name, email, and admin tier text
+.account-name          : Profile full name
+.account-email         : Profile email
+.account-tier          : Account badge (e.g. "★ Pro Solar Admin")
+.settings-card         : Grouped settings card containing setting rows
+.setting-row           : Single setting line item (label on left, control on right)
+.setting-left          : Left side wrapper with icon, label, and description
+.setting-right         : Right side wrapper for switch/select
+.setting-icon          : Setting category icon
+.setting-meta          : Label and description block
+.setting-label         : Setting title text
+.setting-desc          : Subtitle explanation of the setting
+.form-select           : Styled dropdown select control
+.switch                : Toggle switch outer label
+.slider                : Toggle switch sliding button
+.jog-control-grid      : 2x2 grid for manual motor jog buttons
+
+--- Buttons, Modals & Toast Alerts ---
+.btn                   : Base button styling with smooth transition and click state
+.btn-primary           : Solid green brand theme button
+.btn-outline           : Transparent outlined secondary button
+.icon-btn              : Compact circular icon button
+.modal-overlay         : Backdrop overlay covering viewport when modal is open
+.modal-content         : Dialog modal window
+.modal-title           : Heading inside modal
+.modal-body            : Content area inside modal with input fields
+.modal-actions         : Action button row inside modal
+.toast-container       : Floating bottom toast container
+.toast                 : Individual notification bubble with icon and message
+
+
+================================================================================
+3. RECOMMENDED DATASET STRUCTURE
+================================================================================
+
+This dataset schema is designed for:
+1. Real-time IoT ingestion (ESP32-S3 over MQTT or WebSocket).
+2. Direct 1:1 mapping with the HelioTrack UI element IDs.
+3. Timeseries storage (TimescaleDB, InfluxDB, PostgreSQL, or Firebase).
+4. Low bandwidth footprint (~1.2 KB uncompressed).
+
+--------------------------------------------------------------------------------
+A. Real-Time Telemetry Payload (JSON)
+--------------------------------------------------------------------------------
+{
+  "device_id": "HT-ESP32-01",
+  "array_id": "ARRAY-01",
+  "location": {
+    "name": "Surabaya Hub",
+    "latitude": -7.2575,
+    "longitude": 112.7521
+  },
+  "timestamp": "2026-10-02T11:45:00.000Z",
+  "system_mode": "auto",
+
+  "electrical": {
+    "power_kw": 4.82,
+    "voltage_v": 385.4,
+    "current_a": 12.50,
+    "frequency_hz": 50.02,
+    "inverter_efficiency_pct": 97.8,
+    "mppt_status": "tracking"
+  },
+
+  "tracking": {
+    "sun_azimuth_deg": 142.0,
+    "sun_elevation_deg": 34.5,
+    "panel_azimuth_deg": 142.0,
+    "panel_elevation_deg": 34.5,
+    "alignment_error_deg": 0.15,
+    "servos_synchronized": true
+  },
+
+  "environment": {
+    "irradiance_wm2": 895,
+    "cell_temp_c": 41.2,
+    "ambient_temp_c": 31.0,
+    "uv_index": 8.4,
+    "cloud_cover_pct": 12,
+    "wind_speed_kmh": 14.0,
+    "weather_condition": "Clear Sky"
+  },
+
+  "health": {
+    "overall_score_pct": 98.4,
+    "status": "optimal",
+    "fault_codes": [],
+    "night_return_enabled": true
+  },
+
+  "yield": {
+    "today_kwh": 34.8,
+    "revenue_usd": 4.52,
+    "co2_saved_kg": 24.6,
+    "trees_equivalent": 1.2,
+    "hourly_curve": [
+      { "time": "06:00", "kw": 0.1 },
+      { "time": "07:00", "kw": 0.6 },
+      { "time": "08:00", "kw": 1.8 },
+      { "time": "09:00", "kw": 2.9 },
+      { "time": "10:00", "kw": 3.8 },
+      { "time": "11:00", "kw": 4.5 },
+      { "time": "12:00", "kw": 5.1 },
+      { "time": "13:00", "kw": 5.2 },
+      { "time": "14:00", "kw": 4.7 },
+      { "time": "15:00", "kw": 3.9 },
+      { "time": "16:00", "kw": 2.4 },
+      { "time": "17:00", "kw": 1.1 },
+      { "time": "18:00", "kw": 0.2 }
+    ]
+  }
+}
+
+--------------------------------------------------------------------------------
+B. Field Dictionary & UI ID Mapping
+--------------------------------------------------------------------------------
+Field Path                              | UI Target Element ID   | Data Type | Description
+----------------------------------------|------------------------|-----------|------------------------------------------------
+electrical.power_kw                     | #val-power             | Float     | Generated power output in Kilowatts
+electrical.voltage_v                    | #val-voltage           | Float     | Solar string/bus voltage in Volts
+electrical.current_a                    | #val-current           | Float     | String current in Amperes
+environment.irradiance_wm2              | #val-irradiance        | Integer   | Solar irradiance sensor measurement
+tracking.panel_azimuth_deg              | #val-azimuth           | Float     | Physical panel azimuth rotation (0-360°)
+tracking.panel_azimuth_deg              | #azimuth-needle        | Float     | Compass needle rotation angle in degrees
+tracking.panel_elevation_deg            | #val-elevation         | Float     | Physical panel tilt angle (0-90°)
+tracking.panel_elevation_deg            | #elevation-needle      | Float     | Tilt needle rotation angle in degrees
+environment.cell_temp_c                 | #val-cell-temp         | Float     | Back-of-module thermocouple temperature
+yield.hourly_curve                      | #production-curve-svg  | Array     | 13 hourly points for rendering smooth SVG graph
+yield.today_kwh                         | .prod-total            | Float     | Cumulative daily energy generation
+yield.revenue_usd                       | .prod-highlight-row    | Float     | Financial return calculation
+yield.co2_saved_kg                      | .impact-tag            | Float     | Carbon emission offset equivalent
+yield.trees_equivalent                  | .impact-tag            | Float     | Environmental forest equivalency
+health.overall_score_pct                | .health-score          | Float     | Diagnostics health percentage (0-100%)
+system_mode                             | [data-track-mode]      | String    | "auto", "single", "manual", "stow"
+
+--------------------------------------------------------------------------------
+C. Database Table Schema Recommendation (PostgreSQL / TimescaleDB)
+--------------------------------------------------------------------------------
+
+CREATE TABLE solar_telemetry (
+    time TIMESTAMPTZ NOT NULL,
+    device_id VARCHAR(32) NOT NULL,
+    array_id VARCHAR(32) NOT NULL,
+    power_kw NUMERIC(6,3),
+    voltage_v NUMERIC(6,2),
+    current_a NUMERIC(6,2),
+    irradiance_wm2 INTEGER,
+    panel_azimuth NUMERIC(5,2),
+    panel_elevation NUMERIC(5,2),
+    sun_azimuth NUMERIC(5,2),
+    sun_elevation NUMERIC(5,2),
+    alignment_error NUMERIC(4,2),
+    cell_temp_c NUMERIC(5,2),
+    ambient_temp_c NUMERIC(5,2),
+    inverter_efficiency NUMERIC(5,2),
+    system_mode VARCHAR(16) DEFAULT 'auto'
+);
+
+CREATE TABLE daily_production_summary (
+    date DATE PRIMARY KEY,
+    array_id VARCHAR(32) NOT NULL,
+    total_yield_kwh NUMERIC(8,2),
+    peak_power_kw NUMERIC(6,3),
+    co2_saved_kg NUMERIC(8,2),
+    revenue_usd NUMERIC(8,2),
+    operational_hours NUMERIC(4,2),
+    health_score NUMERIC(5,2)
+);
+
+================================================================================
+END OF SPECIFICATION FILE
+================================================================================

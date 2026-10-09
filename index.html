@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>HelioTrack | Solar Panel Tracker</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2310b981'><path d='M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41M12 7a5 5 0 100 10 5 5 0 000-10z'/></svg>">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Top Sticky Header -->
+    <header class="app-header">
+      <div class="header-top">
+        <a href="index.html" class="brand-wrapper">
+          <div class="brand-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="4"/>
+              <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+            </svg>
+          </div>
+          <div>
+            <div class="brand-title">HelioTrack</div>
+            <div class="brand-subtitle">Smart Solar Tracker</div>
+          </div>
+        </a>
+        <div class="header-actions">
+          <div class="status-pill">
+            <span class="pulse-dot"></span>
+            <span>TRACKING</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="app-content">
+      <!-- Title & Hero Section -->
+      <section class="hero-banner">
+        <div class="hero-info">
+          <h1>Array #01 • Dual-Axis</h1>
+          <p>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
+            Surabaya Hub • Online
+          </p>
+        </div>
+        <div class="hero-sun-state">
+          <div class="sun-badge">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+            <span>Peak Sun</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 1. Summary (Power, Voltage, Current, Irradiance) -->
+      <section>
+        <div class="card-header" style="margin-bottom: 8px;">
+          <h2 class="card-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            System Summary
+          </h2>
+          <span class="card-badge">Live MPPT</span>
+        </div>
+
+        <div class="summary-grid">
+          <!-- Power -->
+          <div class="summary-card power">
+            <div class="metric-header">
+              <span class="metric-label">Power</span>
+              <div class="metric-icon-box">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              </div>
+            </div>
+            <div class="metric-value-row">
+              <span class="metric-val" id="val-power">4.82</span>
+              <span class="metric-unit">kW</span>
+            </div>
+            <div class="metric-sub">
+              <span class="trend-up">▲ 14.2%</span> vs fixed tilt
+            </div>
+          </div>
+
+          <!-- Voltage -->
+          <div class="summary-card voltage">
+            <div class="metric-header">
+              <span class="metric-label">Voltage</span>
+              <div class="metric-icon-box">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+              </div>
+            </div>
+            <div class="metric-value-row">
+              <span class="metric-val" id="val-voltage">385.4</span>
+              <span class="metric-unit">V</span>
+            </div>
+            <div class="metric-sub">
+              <span>Nominal: 380V</span>
+            </div>
+          </div>
+
+          <!-- Current -->
+          <div class="summary-card current">
+            <div class="metric-header">
+              <span class="metric-label">Current</span>
+              <div class="metric-icon-box">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              </div>
+            </div>
+            <div class="metric-value-row">
+              <span class="metric-val" id="val-current">12.50</span>
+              <span class="metric-unit">A</span>
+            </div>
+            <div class="metric-sub">
+              <span>Bus Stable</span>
+            </div>
+          </div>
+
+          <!-- Irradiance -->
+          <div class="summary-card irradiance">
+            <div class="metric-header">
+              <span class="metric-label">Irradiance</span>
+              <div class="metric-icon-box">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+              </div>
+            </div>
+            <div class="metric-value-row">
+              <span class="metric-val" id="val-irradiance">895</span>
+              <span class="metric-unit">W/m²</span>
+            </div>
+            <div class="metric-sub">
+              <span>Optical 98%</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. Solar Panel Health System -->
+      <section class="card health-system-card">
+        <div class="card-header">
+          <h2 class="card-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            Solar Panel Health System
+          </h2>
+          <button id="btn-self-test" class="btn btn-outline" style="padding: 3px 8px; font-size: 0.72rem;">Self Test</button>
+        </div>
+
+        <div class="health-banner">
+          <div class="health-gauge-text">
+            <span class="health-score">98.4% Health Score</span>
+            <span class="health-status-desc">All tracking motors and photovoltaic cells nominal</span>
+          </div>
+          <span class="health-badge-good">Optimal</span>
+        </div>
+
+        <!-- Tracker Angles & Compass Visualizer -->
+        <div class="tracker-visualizer">
+          <div class="angle-box">
+            <div class="angle-icon-circle">
+              <div class="needle-indicator" id="azimuth-needle" style="transform: rotate(142deg);"></div>
+            </div>
+            <div class="angle-details">
+              <span class="angle-title">Azimuth Angle</span>
+              <span class="angle-number" id="val-azimuth">142.0° SE</span>
+            </div>
+          </div>
+
+          <div class="angle-box">
+            <div class="angle-icon-circle">
+              <div class="needle-indicator" id="elevation-needle" style="transform: rotate(34.5deg); background-color: var(--green-accent);"></div>
+            </div>
+            <div class="angle-details">
+              <span class="angle-title">Tilt / Elevation</span>
+              <span class="angle-number" id="val-elevation">34.5°</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Health Checklist -->
+        <div class="health-metrics-list">
+          <div class="health-item">
+            <div class="health-item-dot"></div>
+            <div class="health-item-info">
+              <span class="health-item-title">Cell Temp</span>
+              <span class="health-item-val" id="val-cell-temp">41.2°C (Safe)</span>
+            </div>
+          </div>
+
+          <div class="health-item">
+            <div class="health-item-dot"></div>
+            <div class="health-item-info">
+              <span class="health-item-title">Inverter Efficiency</span>
+              <span class="health-item-val">97.8%</span>
+            </div>
+          </div>
+
+          <div class="health-item">
+            <div class="health-item-dot"></div>
+            <div class="health-item-info">
+              <span class="health-item-title">Tracking Servos</span>
+              <span class="health-item-val">Synchronized</span>
+            </div>
+          </div>
+
+          <div class="health-item">
+            <div class="health-item-dot"></div>
+            <div class="health-item-info">
+              <span class="health-item-title">Alignment Error</span>
+              <span class="health-item-val">&lt; 0.2° (Target)</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. Weather -->
+      <section class="card weather-card">
+        <div class="card-header">
+          <h2 class="card-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
+            Weather & Sun Path
+          </h2>
+          <span class="card-badge" style="background: rgba(251, 191, 36, 0.15); color: var(--yellow-sun);">Clear Sky</span>
+        </div>
+
+        <div class="weather-main-row">
+          <div class="weather-condition">
+            <div class="weather-sun-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg>
+            </div>
+            <div class="weather-temp-info">
+              <span class="weather-temp-val">31°C</span>
+              <span class="weather-cond-name">Sunny • Low Atmosphere Haze</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sun daylight arc timeline -->
+        <div class="sun-arc-progress">
+          <div class="sun-arc-labels">
+            <span>🌅 Dawn 05:42</span>
+            <span style="color: var(--yellow-sun); font-weight: 600;">☀️ Sun Zenith 11:45</span>
+            <span>Dusk 17:48 🌇</span>
+          </div>
+          <div class="arc-track">
+            <div class="arc-bar" style="width: 65%;"></div>
+          </div>
+        </div>
+
+        <div class="weather-stats-grid">
+          <div class="weather-stat-pill">
+            <div class="weather-stat-title">UV Index</div>
+            <div class="weather-stat-val" style="color: #f59e0b;">8.4 (High)</div>
+          </div>
+          <div class="weather-stat-pill">
+            <div class="weather-stat-title">Cloud Cover</div>
+            <div class="weather-stat-val">12%</div>
+          </div>
+          <div class="weather-stat-pill">
+            <div class="weather-stat-title">Wind Speed</div>
+            <div class="weather-stat-val">14 km/h</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. Today's Productions -->
+      <section class="card production-card">
+        <div class="card-header">
+          <h2 class="card-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+            Today's Productions
+          </h2>
+          <span class="card-badge">Daily Cycle</span>
+        </div>
+
+        <div class="prod-highlight-row">
+          <div>
+            <div class="prod-total">34.8 <span>kWh</span></div>
+            <span style="font-size: 0.75rem; color: var(--text-dim);">Estimated Revenue: $4.52</span>
+          </div>
+          <div class="prod-impact-tags">
+            <div class="impact-tag">🌱 24.6 kg CO2 saved</div>
+            <div class="impact-tag">🌳 1.2 Trees equivalent</div>
+          </div>
+        </div>
+
+        <!-- Interactive SVG Production Curve -->
+        <div class="chart-container">
+          <svg id="production-curve-svg" class="chart-svg" viewBox="0 0 360 140">
+            <defs>
+              <linearGradient id="solarGreenGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#10b981" stop-opacity="0.5"/>
+                <stop offset="100%" stop-color="#10b981" stop-opacity="0.0"/>
+              </linearGradient>
+            </defs>
+            <!-- Guide Grid Lines -->
+            <line x1="15" y1="30" x2="345" y2="30" stroke="rgba(255,255,255,0.06)" stroke-dasharray="3,3"/>
+            <line x1="15" y1="70" x2="345" y2="70" stroke="rgba(255,255,255,0.06)" stroke-dasharray="3,3"/>
+            <line x1="15" y1="110" x2="345" y2="110" stroke="rgba(255,255,255,0.06)" stroke-dasharray="3,3"/>
+            
+            <path id="chart-area-path" fill="url(#solarGreenGradient)"/>
+            <path id="chart-line-path" fill="none" stroke="#10b981" stroke-width="3" stroke-linecap="round"/>
+            <g id="chart-dots-group"></g>
+          </svg>
+        </div>
+
+        <div class="chart-time-labels">
+          <span>06:00</span>
+          <span>09:00</span>
+          <span>12:00 (Peak)</span>
+          <span>15:00</span>
+          <span>18:00</span>
+        </div>
+      </section>
+    </main>
+
+    <!-- Bottom Navigation Bar (Phone-Friendly) -->
+    <nav class="bottom-nav">
+      <a href="index.html" class="nav-item active" id="nav-home">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        <span>Home</span>
+      </a>
+      <a href="settings.html" class="nav-item" id="nav-settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+        <span>Settings</span>
+      </a>
+    </nav>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
