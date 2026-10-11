@@ -150,7 +150,7 @@ const HelioAuth = {
     if (window.location.protocol === 'file:') {
       return {
         success: false,
-        error: "Google OAuth memerlukan server HTTP (misal http://localhost:8080). Jalankan dengan 'python3 -m http.server 8080' dan jangan buka langsung via file://."
+        error: "Google OAuth memerlukan protokol web (HTTP/HTTPS). Pastikan aplikasi diakses melalui web hosting atau server yang aktif."
       };
     }
 
@@ -160,9 +160,8 @@ const HelioAuth = {
     }
 
     try {
-      // URL redirect setelah login Google berhasil: arahkan ke homepage.html
-      const currentDir = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
-      const redirectTarget = window.location.origin + currentDir + 'homepage.html';
+      // URL redirect otomatis menyesuaikan ke homepage.html di domain deploy saat ini
+      const redirectTarget = new URL('homepage.html', window.location.href).href;
 
       const { data, error } = await client.auth.signInWithOAuth({
         provider: 'google',
