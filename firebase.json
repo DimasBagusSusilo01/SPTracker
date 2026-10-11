@@ -8,6 +8,14 @@
     ],
     "rewrites": [
       {
+        "source": "/homepage",
+        "destination": "/homepage.html"
+      },
+      {
+        "source": "/settings",
+        "destination": "/settings.html"
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }
