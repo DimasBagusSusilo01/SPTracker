@@ -1543,3 +1543,98 @@ input:checked + .slider::before {
   display: inline-block;
 }
 
+
+/* =========================================
+   DESKTOP LANDSCAPE: SIDEBAR & RESPONSIVE
+   ========================================= */
+
+.desktop-sidebar {
+  display: none;
+}
+
+@media screen and (min-width: 1024px) and (orientation: landscape) {
+
+  body {
+    display: block;
+  }
+
+  /* Aplikasi menggunakan seluruh lebar layar */
+  .app-container {
+    width: auto;
+    max-width: none;
+    min-height: 100vh;
+    margin: 0 0 0 230px;
+    padding-bottom: 24px;
+    border: none;
+    border-radius: 0;
+    overflow: visible;
+  }
+
+  /* Sidebar hanya muncul di laptop landscape */
+  .desktop-sidebar {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 230px;
+    padding: 24px 16px;
+    gap: 12px;
+    overflow-y: auto;
+    z-index: 1000;
+
+    background: var(--bg-surface);
+    border-right: 1px solid var(--border-subtle);
+  }
+
+  .desktop-sidebar h2 {
+    color: var(--green-accent);
+    font-size: 1.25rem;
+    margin-bottom: 16px;
+  }
+
+  .desktop-sidebar nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .desktop-sidebar a {
+    display: block;
+    padding: 12px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+    transition: var(--transition);
+  }
+
+  .desktop-sidebar a:hover,
+  .desktop-sidebar a.active {
+    background: var(--green-soft);
+    color: var(--green-accent);
+  }
+
+  /* Header tetap berada di bagian atas konten */
+  .app-header {
+    position: sticky;
+    top: 0;
+  }
+
+  /* Navigasi bawah diganti sidebar */
+  .bottom-nav {
+    display: none;
+  }
+
+  /* Ringkasan data lebih leluasa */
+  .app-content {
+    padding: 24px;
+    gap: 20px;
+  }
+
+  .summary-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+
