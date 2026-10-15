@@ -5,7 +5,7 @@
  */
 
 const SolarApp = {
-  table: "inverter_logs2",
+  table: "inverter_logs",
   timestampColumn: "created_at",
   client: null,
   latestData: null,
