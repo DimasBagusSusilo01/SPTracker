@@ -1,0 +1,162 @@
+```html
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Saga Enerva | Solar Panel Tracker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <aside class="desktop-sidebar">
+    <h2>Saga Enerva</h2>
+    <nav>
+      <a href="homepage.html" class="active">Dashboard</a>
+      <a href="settings.html">Pengaturan</a>
+    </nav>
+  </aside>
+
+  <div class="app-container">
+
+    <header class="app-header">
+      <div class="header-top">
+        <a href="homepage.html" class="brand-wrapper">
+          <div>
+            <div class="brand-title">Saga Enerva</div>
+            <div class="brand-subtitle">Smart Solar Tracker</div>
+          </div>
+        </a>
+
+        <div class="header-actions">
+          <div class="status-pill">
+            <span class="pulse-dot"></span>
+            <span id="connection-status">Menghubungkan...</span>
+          </div>
+          <button class="icon-btn" id="btn-logout-header" type="button">
+            Keluar
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="app-content">
+
+      <section class="hero-banner">
+        <div class="hero-info">
+          <h1>Monitoring Inverter</h1>
+          <p>Data perangkat dari Supabase</p>
+          <p id="last-updated">Menunggu data...</p>
+        </div>
+      </section>
+
+      <section>
+        <div class="card-header">
+          <h2 class="card-title">Data Inverter</h2>
+          <span class="card-badge">Realtime</span>
+        </div>
+
+        <div class="summary-grid">
+
+          <div class="summary-card voltage">
+            <div class="metric-label">Tegangan PV</div>
+            <div class="metric-value-row">
+              <span class="metric-val" id="val-pv-voltage">--</span>
+              <span class="metric-unit">V</span>
+            </div>
+          </div>
+
+          <div class="summary-card power">
+            <div class="metric-label">Tegangan Output</div>
+            <div class="metric-value-row">
+              <span class="metric-val" id="val-output-voltage">--</span>
+              <span class="metric-unit">V</span>
+            </div>
+          </div>
+
+          <div class="summary-card current">
+            <div class="metric-label">Tegangan Baterai</div>
+            <div class="metric-value-row">
+              <span class="metric-val" id="val-battery-voltage">--</span>
+              <span class="metric-unit">V</span>
+            </div>
+          </div>
+
+          <div class="summary-card irradiance">
+            <div class="metric-label">Kapasitas Baterai</div>
+            <div class="metric-value-row">
+              <span class="metric-val" id="val-battery-capacity">--</span>
+              <span class="metric-unit">%</span>
+            </div>
+          </div>
+
+          <div class="summary-card">
+            <div class="metric-label">Suhu Controller</div>
+            <div class="metric-value-row">
+              <span class="metric-val" id="val-controller-temp">--</span>
+              <span class="metric-unit">°C</span>
+            </div>
+          </div>
+
+          <div class="summary-card">
+            <div class="metric-label">Suhu Inverter</div>
+            <div class="metric-value-row">
+              <span class="metric-val" id="val-inverter-temp">--</span>
+              <span class="metric-unit">°C</span>
+            </div>
+          </div>
+
+          <div class="summary-card">
+            <div class="metric-label">Beban</div>
+            <div class="metric-value-row">
+              <span class="metric-val" id="val-load-percentage">--</span>
+              <span class="metric-unit">%</span>
+            </div>
+          </div>
+
+          <div class="summary-card">
+            <div class="metric-label">Arus Pengisian Controller</div>
+            <div class="metric-value-row">
+              <span class="metric-val" id="val-charging-current">--</span>
+              <span class="metric-unit">A</span>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-header">
+          <h2 class="card-title">Status Operasional</h2>
+        </div>
+        <p id="val-operating-status">Menunggu data...</p>
+      </section>
+
+      <section class="card">
+        <div class="card-header">
+          <h2 class="card-title">Data Mentah</h2>
+        </div>
+        <pre id="val-raw-text">Belum ada data.</pre>
+      </section>
+
+    </main>
+
+    <nav class="bottom-nav">
+      <a href="homepage.html" class="nav-item active">
+        <span>Dashboard</span>
+      </a>
+      <a href="settings.html" class="nav-item">
+        <span>Pengaturan</span>
+      </a>
+    </nav>
+
+  </div>
+
+  <!-- Urutan script harus dipertahankan -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="auth.js"></script>
+  <script src="app.js"></script>
+
+</body>
+</html>
+```
