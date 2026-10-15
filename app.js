@@ -334,7 +334,9 @@ const SolarApp = {
 
   async connectSupabase() {
     // Memakai client yang sudah dibuat auth.js.
-    this.client = window.HelioAuth?.initClient?.();
+    //this.client = window.HelioAuth?.initClient?.();
+    
+    this.client = typeof HelioAuth !== "undefined" ? HelioAuth.initClient() : null;
 
     if (!this.client) {
       this.showError(
