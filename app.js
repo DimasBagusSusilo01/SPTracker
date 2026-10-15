@@ -1,4 +1,3 @@
-```javascript
 /**
  * HelioTrack - Solar Inverter Monitor
  * Data diambil dari Supabase, bukan simulasi.
@@ -495,4 +494,3 @@ const SolarApp = {
 document.addEventListener("DOMContentLoaded", () => {
   SolarApp.init();
 });
-```
