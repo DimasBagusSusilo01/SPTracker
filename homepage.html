@@ -133,9 +133,10 @@
 
       <section class="card">
         <div class="card-header">
-          <h2 class="card-title">Data Mentah</h2>
+          <div style="width: 100%; max-width: 900px;">
+  <canvas id="inverterChart"></canvas>
+</div>
         </div>
-        <pre id="val-raw-text">Belum ada data.</pre>
       </section>
 
     </main>
@@ -155,6 +156,118 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="auth.js"></script>
   <script src="app.js"></script>
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+<script>
+  // Konfigurasi Supabase
+  const SUPABASE_URL = "https://cnitfsuiskyxhmcpwgsa.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_11PFn8qhjmXnPr6_fjw1ug_rPfxOcJV";
+
+  const supabase = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+  let inverterChart;
+
+  async function tampilkanGrafik() {
+    const { data, error } = await supabase
+      .from("invertertracker")
+      .select("logged_at, pv_voltage, control_charging_current")
+      .order("created_at", { ascending: true })
+      .limit(100);
+
+    if (error) {
+      console.error("Gagal mengambil data:", error.message);
+      return;
+    }
+
+    const labels = data.map(row =>
+      new Date(row.created_at).toLocaleTimeString("id-ID")
+    );
+
+    const tegangan = data.map(row => row.pv_voltage);
+    const arus = data.map(row => row.control_charging_current);
+
+    if (inverterChart) {
+      inverterChart.destroy();
+    }
+
+    const ctx = document
+      .getElementById("inverterChart")
+      .getContext("2d");
+
+    inverterChart = new Chart(ctx, {
+      type: "line",
+
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: "PV Voltage (V)",
+            data: tegangan,
+            borderColor: "#16a34a",
+            backgroundColor: "#16a34a20",
+            borderWidth: 2,
+            tension: 0.3
+          },
+          {
+            label: "Control Charging Current (A)",
+            data: arus,
+            borderColor: "#2563eb",
+            backgroundColor: "#2563eb20",
+            borderWidth: 2,
+            tension: 0.3
+          }
+        ]
+      },
+
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+
+        interaction: {
+          intersect: false,
+          mode: "index"
+        },
+
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: "Waktu"
+            }
+          },
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: "Nilai"
+            }
+          }
+        }
+      }
+    });
+  }
+
+  // Tampilkan grafik saat halaman dibuka
+  tampilkanGrafik();
+
+  supabase
+  .channel("inverter-logs-realtime")
+  .on(
+    "postgres_changes",
+    {
+      event: "*",
+      schema: "public",
+      table: "inverter_logs"
+    },
+    () => {
+      tampilkanGrafik();
+    }
+  )
+  .subscribe();
+</script>
 </body>
 </html>
