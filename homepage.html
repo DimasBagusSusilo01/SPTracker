@@ -161,10 +161,10 @@
 
 <script>
   // Konfigurasi Supabase
-  const SUPABASE_URL = "https://cnitfsuiskyxhmcpwgsa.supabase.co";
+  //const SUPABASE_URL = "https://cnitfsuiskyxhmcpwgsa.supabase.co";
   const SUPABASE_KEY = "sb_publishable_11PFn8qhjmXnPr6_fjw1ug_rPfxOcJV";
 
-  const supabase = window.supabase.createClient(
+  const supabasechart = window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_KEY
   );
@@ -172,7 +172,7 @@
   let inverterChart;
 
   async function tampilkanGrafik() {
-    const { data, error } = await supabase
+    const { data, error } = await supabasechart
       .from("invertertracker")
       .select("logged_at, pv_voltage, control_charging_current")
       .order("created_at", { ascending: true })
@@ -254,14 +254,14 @@
   // Tampilkan grafik saat halaman dibuka
   tampilkanGrafik();
 
-  supabase
+  supabasechart
   .channel("invertertracker")
   .on(
     "postgres_changes",
     {
       event: "*",
       schema: "public",
-      table: "inverter_logs"
+      table: "invertertracker"
     },
     () => {
       tampilkanGrafik();
