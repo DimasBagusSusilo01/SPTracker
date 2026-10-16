@@ -4,27 +4,56 @@
  */
 
 const SolarApp = {
-  table: "inverter_logs",
-  timestampColumn: "created_at",
-  client: null,
-  latestData: null,
-  realtimeChannel: null,
-  refreshTimer: null,
+  
+table: "invertertracker",
+timestampColumn: "logged_at",
+client: null,
+latestData: null,
+realtimeChannel: null,
+refreshTimer: null,
 
-  metrics: [
-    { key: "pv_voltage", label: "PV Voltage", unit: "V" },
-    { key: "output_voltage", label: "Output Voltage", unit: "V" },
-    { key: "battery_voltage", label: "Battery Voltage", unit: "V" },
-    { key: "battery_capacity", label: "Battery Capacity", unit: "%" },
-    { key: "controller_temp", label: "Controller Temperature", unit: "°C" },
-    { key: "inverter_temp", label: "Inverter Temperature", unit: "°C" },
-    { key: "load_percentage", label: "Load Percentage", unit: "%" },
-    {
-      key: "controller_charging_curr",
-      label: "Controller Charging Current",
-      unit: "A"
-    }
-  ],
+metrics: [
+  {
+    key: "pv_voltage",
+    label: "PV Voltage",
+    unit: "V"
+  },
+  {
+    key: "controller_charging_current",
+    label: "Controller Charging Current",
+    unit: "A"
+  },
+  {
+    key: "output_voltage",
+    label: "Output Voltage",
+    unit: "V"
+  },
+  {
+    key: "battery_voltage",
+    label: "Battery Voltage",
+    unit: "V"
+  },
+  {
+    key: "battery_capacity",
+    label: "Battery Capacity",
+    unit: "%"
+  },
+  {
+    key: "controller_temperature",
+    label: "Controller Temperature",
+    unit: "°C"
+  },
+  {
+    key: "machine_temperature",
+    label: "Machine Temperature",
+    unit: "°C"
+  },
+  {
+    key: "load_percentage",
+    label: "Load Percentage",
+    unit: "%"
+  }
+],
 
   init() {
     this.applyTheme(
@@ -284,10 +313,20 @@ const SolarApp = {
       "inverter-operating-status"
     );
 
-    if (status) {
-      status.textContent =
-        data.operating_status ?? "Status tidak tersedia";
-    }
+  if (status) {
+  status.textContent =
+    data.system_operating_status ?? "Status tidak tersedia";
+}
+
+// Perbarui elemen status yang sudah ada di homepage.html
+const homepageStatus = document.getElementById(
+  "val-operating-status"
+);
+
+if (homepageStatus) {
+  homepageStatus.textContent =
+    data.system_operating_status ?? "Status tidak tersedia";
+}
 
     const timestamp = data[this.timestampColumn];
 
