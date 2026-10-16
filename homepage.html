@@ -161,7 +161,7 @@
 
 <script>
   // Konfigurasi Supabase
-  //const SUPABASE_URL = "https://cnitfsuiskyxhmcpwgsa.supabase.co";
+  const SUPABASE_URL = "https://cnitfsuiskyxhmcpwgsa.supabase.co";
   const SUPABASE_KEY = "sb_publishable_11PFn8qhjmXnPr6_fjw1ug_rPfxOcJV";
 
   const supabase = window.supabase.createClient(
@@ -184,7 +184,7 @@
     }
 
     const labels = data.map(row =>
-      new Date(row.created_at).toLocaleTimeString("id-ID")
+      new Date(row.logged_at).toLocaleTimeString("id-ID")
     );
 
     const tegangan = data.map(row => row.pv_voltage);
@@ -255,7 +255,7 @@
   tampilkanGrafik();
 
   supabase
-  .channel("inverter-logs-realtime")
+  .channel("invertertracker")
   .on(
     "postgres_changes",
     {
