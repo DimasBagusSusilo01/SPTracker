@@ -174,7 +174,7 @@
   async function tampilkanGrafik() {
     const { data, error } = await supabasechart
       .from("invertertracker")
-      .select("logged_at, pv_voltage, control_charging_current")
+      .select("logged_at, pv_voltage, controller_charging_current")
       .order("created_at", { ascending: true })
       .limit(100);
 
@@ -188,7 +188,7 @@
     );
 
     const tegangan = data.map(row => row.pv_voltage);
-    const arus = data.map(row => row.control_charging_current);
+    const arus = data.map(row => row.controller_charging_current);
 
     if (inverterChart) {
       inverterChart.destroy();
